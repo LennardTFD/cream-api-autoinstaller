@@ -1,8 +1,3 @@
-// collect all dlc from the page
-// must be on store.steampowered.com/app/{appid}
-// copy paste this entire file into dev console (f12) and press enter
-// file: cream_api.ini will automatically be downloaded
-
 var parser_data = {
 	name: "CreamApi config JS generator",
 	version: "0.23"
@@ -26,17 +21,17 @@ String.prototype.format = function() {
 
 function collectDlc() {
 	var output = {};
-	var dlcs = document.body.queryA(".game_area_dlc_row");
+	var dlcs = document.body.queryA(".app");
 	for (var i=0;i<dlcs.length;i++) {
-		var dlcid = dlcs[i].getAttribute("data-ds-appid");
-		var dlcname = dlcs[i].query(".game_area_dlc_name").innerText.replace("\n","").trim(" ");
+		var dlcid = dlcs[i].getAttribute("data-appid");
+		var dlcname = dlcs[i].getElementsByTagName("td")[1].innerText.replace("\n","").trim(" ");
 		output[dlcid] = {value:dlcname,active:true};
 	}
 	return output;
 }
 function collectAppData() {
 	var appid = window.location.pathname.split("/")[2];
-	var appname = document.body.query(".apphub_AppName").innerText;
+	var appname = document.getElementsByTagName("h1")[0].innerText;
 	var output = {
 		appid: appid,
 		name: appname
